@@ -1,0 +1,62 @@
+[
+  {
+    "id": "LV001",
+    "employeeId": "EMP001",
+    "employeeName": "Meera Krishnan",
+    "type": "Casual Leave",
+    "startDate": "2026-03-20",
+    "endDate": "2026-03-21",
+    "days": 2,
+    "reason": "Personal work",
+    "status": "Pending",
+    "appliedOn": "2026-03-10"
+  },
+  {
+    "id": "LV002",
+    "employeeId": "EMP003",
+    "employeeName": "Sundari Rajan",
+    "type": "Sick Leave",
+    "startDate": "2026-03-05",
+    "endDate": "2026-03-06",
+    "days": 2,
+    "reason": "Fever and cold",
+    "status": "Approved",
+    "appliedOn": "2026-03-04"
+  },
+  {
+    "id": "LV003",
+    "employeeId": "EMP006",
+    "employeeName": "Arjun Nair",
+    "type": "Earned Leave",
+    "startDate": "2026-04-01",
+    "endDate": "2026-04-05",
+    "days": 5,
+    "reason": "Family vacation",
+    "status": "Pending",
+    "appliedOn": "2026-03-12"
+  },
+  {
+    "id": "LV004",
+    "employeeId": "EMP002",
+    "employeeName": "Sandeep Patel",
+    "type": "Casual Leave",
+    "startDate": "2026-02-14",
+    "endDate": "2026-02-14",
+    "days": 1,
+    "reason": "Personal",
+    "status": "Approved",
+    "appliedOn": "2026-02-10"
+  },
+  {
+    "id": "LV005",
+    "employeeId": "EMP005",
+    "employeeName": "Priya Sharma",
+    "type": "Sick Leave",
+    "startDate": "2026-03-18",
+    "endDate": "2026-03-19",
+    "days": 2,
+    "reason": "Medical appointment",
+    "status": "Pending",
+    "appliedOn": "2026-03-15"
+  }
+]
