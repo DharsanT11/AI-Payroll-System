@@ -92,4 +92,9 @@ export const empSelfService = {
   submitItDeclaration: (data?: any) => api.post('/employee/it-declarations', data),
 };
 
+// ─── AI Chatbot ──────────────────────────────────────────
+export const chatbotService = {
+  sendMessage: (message: string) => api.post('/chatbot', { message }),
+};
+
 export default api;

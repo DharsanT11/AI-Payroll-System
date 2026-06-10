@@ -1,17 +1,19 @@
 {
-  "name": "zoho-payroll-server",
+  "name": "campus-payroll-server",
   "version": "1.0.0",
-  "description": "Zoho Payroll Clone - Backend API",
+  "description": "Campus Payroll for Colleges & Universities - Backend API",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "node --watch src/index.js"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
     "express": "^4.21.0",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^9.5.0",
     "uuid": "^10.0.0"
   }
 }

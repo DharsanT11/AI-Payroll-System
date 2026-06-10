@@ -12,6 +12,7 @@ const reportRoutes = require('./routes/reports');
 const settingsRoutes = require('./routes/settings');
 const dashboardRoutes = require('./routes/dashboard');
 const empSelfRoutes = require('./routes/employee');
+const chatbotRoutes = require('./routes/chatbot');
 
 // Middleware imports
 const errorHandler = require('./middleware/errorHandler');
@@ -24,16 +25,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ─── API Routes ──────────────────────────────────────────────
+const authMiddleware = require('./middleware/auth');
+const requireRole = require('./middleware/roles');
+
 app.use('/api/auth', authRoutes);
-app.use('/api/employees', employeeMgmtRoutes);
-app.use('/api/pay-runs', payRunRoutes);
-app.use('/api/leaves', leaveRoutes);
-app.use('/api/taxes', taxRoutes);
-app.use('/api/loans', loanRoutes);
-app.use('/api/reports', reportRoutes);
-app.use('/api/settings', settingsRoutes);
-app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/employee', empSelfRoutes);
+
+// Admin Routes
+app.use('/api/employees', authMiddleware, requireRole('admin'), employeeMgmtRoutes);
+app.use('/api/pay-runs', authMiddleware, requireRole('admin'), payRunRoutes);
+app.use('/api/leaves', authMiddleware, requireRole('admin'), leaveRoutes);
+app.use('/api/taxes', authMiddleware, requireRole('admin'), taxRoutes);
+app.use('/api/loans', authMiddleware, requireRole('admin'), loanRoutes);
+app.use('/api/reports', authMiddleware, requireRole('admin'), reportRoutes);
+app.use('/api/settings', authMiddleware, requireRole('admin'), settingsRoutes);
+app.use('/api/dashboard', authMiddleware, requireRole('admin'), dashboardRoutes);
+
+// Employee Self-Service Routes
+app.use('/api/employee', authMiddleware, requireRole('employee'), empSelfRoutes);
+
+// Chatbot (accessible by both admin and employee)
+app.use('/api/chatbot', authMiddleware, chatbotRoutes);
 
 // ─── Health Check ────────────────────────────────────────────
 app.get('/api/health', (req, res) => {

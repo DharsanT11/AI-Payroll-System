@@ -49,13 +49,13 @@ module.exports = {
   ],
 
   DEPARTMENTS: [
-    'Engineering',
-    'Design',
-    'Marketing',
-    'Sales',
+    'Computer Science',
+    'Mathematics',
+    'Administration',
+    'Examinations',
     'Human Resources',
     'Finance',
-    'Operations',
-    'Support',
+    'Library',
+    'Student Affairs',
   ],
 };

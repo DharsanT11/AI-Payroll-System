@@ -8,11 +8,11 @@ import { getInitials, getAvatarColor } from '../../utils/helpers';
 
 const navItems = [
   { to: '/emp',               icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/emp/payslips',      icon: FileText,        label: 'My Payslips' },
+  { to: '/emp/payslips',      icon: FileText,        label: 'Payslips' },
   { to: '/emp/leave',         icon: CalendarDays,    label: 'Leave' },
-  { to: '/emp/it-declaration', icon: Shield,         label: 'IT Declaration' },
+  { to: '/emp/tax-declaration', icon: Shield,        label: 'Tax' },
   { to: '/emp/reimbursements', icon: Receipt,        label: 'Reimbursements' },
-  { to: '/emp/loans',         icon: Landmark,        label: 'My Loans' },
+  { to: '/emp/loans',         icon: Landmark,        label: 'Loans' },
   { to: '/emp/profile',       icon: User,            label: 'My Profile' },
 ];
 
@@ -21,10 +21,10 @@ export default function EmployeeSidebar() {
 
   return (
     <aside className="sidebar employee-sidebar">
-      <div className="sidebar-logo">
+      <div className="sidebar-logo employee-sidebar-logo">
         <div className="sidebar-logo-icon emp">P</div>
         <div className="sidebar-logo-text">
-          Payroll
+          Campus Payroll
           <span>Employee Portal</span>
         </div>
       </div>
@@ -36,7 +36,7 @@ export default function EmployeeSidebar() {
         </div>
         <div className="sidebar-profile-info">
           <strong>{user?.name}</strong>
-          <small>{user?.email}</small>
+          <small>Employee Access</small>
         </div>
       </div>
 
@@ -55,6 +55,14 @@ export default function EmployeeSidebar() {
           </NavLink>
         ))}
       </nav>
+
+      <div className="employee-sidebar-status">
+        <p>System Status</p>
+        <div className="employee-sidebar-status-row">
+          <span className="employee-sidebar-status-dot" />
+          <span>All systems operational</span>
+        </div>
+      </div>
     </aside>
   );
 }

@@ -1,6 +1,6 @@
-# Zoho Payroll Clone
+# Campus Payroll for Colleges & Universities
 
-A full-stack payroll management system inspired by Zoho Payroll, built with **React** (Vite) and **Node.js** (Express).
+A full-stack payroll management system for colleges and universities, built with **React** (Vite) and **Node.js** (Express).
 
 ## Tech Stack
 
@@ -33,7 +33,8 @@ cd client && npm run dev
 ### 3. Open in Browser
 Navigate to `http://localhost:5173`
 
-**Demo Credentials:** `admin@payroll.com` / `admin123`
+**Admin Demo:** `admin@tamilnaducollege.edu` / `admin123`
+**Employee Demo:** `meera.krishnan@tamilnaducollege.edu` / `employee123`
 
 ## Project Structure
 

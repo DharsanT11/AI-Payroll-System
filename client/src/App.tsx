@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ToastProvider } from './context/ToastContext';
 
 // ─── Admin Layout & Pages ────────────────────────────────
 import MainLayout from './components/layout/MainLayout';
@@ -12,6 +13,7 @@ import TaxesForms from './pages/admin/TaxesForms/TaxesForms';
 import Loans from './pages/admin/Loans/Loans';
 import Reports from './pages/admin/Reports/Reports';
 import SettingsPage from './pages/admin/Settings/Settings';
+import AdminProfile from './pages/admin/Profile/Profile';
 
 // ─── Employee Layout & Pages ─────────────────────────────
 import EmployeeLayout from './components/layout/EmployeeLayout';
@@ -68,6 +70,7 @@ function AppRoutes() {
         <Route path="/admin/loans" element={<Loans />} />
         <Route path="/admin/reports" element={<Reports />} />
         <Route path="/admin/settings" element={<SettingsPage />} />
+        <Route path="/admin/profile" element={<AdminProfile />} />
       </Route>
 
       {/* ─── Employee Routes ──────────────────────────── */}
@@ -81,7 +84,8 @@ function AppRoutes() {
         <Route path="/emp" element={<EmpDashboard />} />
         <Route path="/emp/payslips" element={<EmpPayslips />} />
         <Route path="/emp/leave" element={<EmpLeave />} />
-        <Route path="/emp/it-declaration" element={<EmpTaxDeclaration />} />
+        <Route path="/emp/tax-declaration" element={<EmpTaxDeclaration />} />
+        <Route path="/emp/it-declaration" element={<Navigate to="/emp/tax-declaration" replace />} />
         <Route path="/emp/reimbursements" element={<EmpReimbursements />} />
         <Route path="/emp/loans" element={<EmpLoans />} />
         <Route path="/emp/profile" element={<EmpProfile />} />
@@ -98,7 +102,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <AppRoutes />
+        <ToastProvider>
+          <AppRoutes />
+        </ToastProvider>
       </AuthProvider>
     </BrowserRouter>
   );

@@ -1,53 +1,80 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../config/db');
-const { v4: uuidv4 } = require('uuid');
+const { Leave, Employee } = require('../models');
 
 // GET /api/leaves
-router.get('/', (req, res) => {
-  const { status, employeeId } = req.query;
-  let leaves = [...db.leaves];
-  if (status) leaves = leaves.filter(l => l.status === status);
-  if (employeeId) leaves = leaves.filter(l => l.employeeId === employeeId);
-  res.json({ success: true, count: leaves.length, data: leaves });
+router.get('/', async (req, res, next) => {
+  try {
+    const { status, employeeId } = req.query;
+    let query = {};
+    if (status) query.status = status;
+    if (employeeId) query.employeeId = employeeId;
+    
+    const leaves = await Leave.find(query);
+    res.json({ success: true, count: leaves.length, data: leaves });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // POST /api/leaves
-router.post('/', (req, res) => {
-  const leave = {
-    id: `LV${String(db.leaves.length + 1).padStart(3, '0')}`,
-    ...req.body,
-    status: 'Pending',
-    appliedOn: new Date().toISOString().split('T')[0],
-  };
-  db.leaves.push(leave);
-  res.status(201).json({ success: true, data: leave });
+router.post('/', async (req, res, next) => {
+  try {
+    const totalLeaves = await Leave.countDocuments();
+    const leaveId = `LV${String(totalLeaves + 1).padStart(3, '0')}`;
+
+    const leave = new Leave({
+      id: leaveId,
+      ...req.body,
+      status: req.body.status || 'Pending',
+      appliedOn: new Date().toISOString().split('T')[0],
+    });
+    
+    await leave.save();
+    res.status(201).json({ success: true, data: leave });
+  } catch (error) {
+    next(error);
+  }
 });
 
 // PUT /api/leaves/:id/approve
-router.put('/:id/approve', (req, res) => {
-  const leave = db.leaves.find(l => l.id === req.params.id);
-  if (!leave) return res.status(404).json({ message: 'Leave not found.' });
-  leave.status = 'Approved';
+router.put('/:id/approve', async (req, res, next) => {
+  try {
+    const leave = await Leave.findOne({ id: req.params.id });
+    if (!leave) return res.status(404).json({ message: 'Leave not found.' });
+    
+    leave.status = 'Approved';
+    await leave.save();
 
-  // Deduct from balance
-  const emp = db.employees.find(e => e.id === leave.employeeId);
-  if (emp && emp.leaveBalance) {
-    const typeKey = leave.type.includes('Casual') ? 'casual' :
-                    leave.type.includes('Sick') ? 'sick' :
-                    leave.type.includes('Earned') ? 'earned' : 'compOff';
-    emp.leaveBalance[typeKey] = Math.max(0, (emp.leaveBalance[typeKey] || 0) - leave.days);
+    // Deduct from balance
+    const emp = await Employee.findOne({ id: leave.employeeId });
+    if (emp && emp.leaveBalance) {
+      const typeKey = leave.type.includes('Casual') ? 'casual' :
+                      leave.type.includes('Sick') ? 'sick' :
+                      leave.type.includes('Earned') ? 'earned' : 'compOff';
+      emp.leaveBalance[typeKey] = Math.max(0, (emp.leaveBalance[typeKey] || 0) - leave.days);
+      await emp.save();
+    }
+
+    res.json({ success: true, data: leave });
+  } catch (error) {
+    next(error);
   }
-
-  res.json({ success: true, data: leave });
 });
 
 // PUT /api/leaves/:id/reject
-router.put('/:id/reject', (req, res) => {
-  const leave = db.leaves.find(l => l.id === req.params.id);
-  if (!leave) return res.status(404).json({ message: 'Leave not found.' });
-  leave.status = 'Rejected';
-  res.json({ success: true, data: leave });
+router.put('/:id/reject', async (req, res, next) => {
+  try {
+    const leave = await Leave.findOneAndUpdate(
+      { id: req.params.id },
+      { $set: { status: 'Rejected' } },
+      { new: true }
+    );
+    if (!leave) return res.status(404).json({ message: 'Leave not found.' });
+    res.json({ success: true, data: leave });
+  } catch (error) {
+    next(error);
+  }
 });
 
 module.exports = router;

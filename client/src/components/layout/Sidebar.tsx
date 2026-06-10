@@ -22,8 +22,8 @@ export default function Sidebar() {
       <div className="sidebar-logo">
         <div className="sidebar-logo-icon">P</div>
         <div className="sidebar-logo-text">
-          Payroll
-          <span>Admin Portal</span>
+          Campus Payroll
+          <span>Institution Admin Portal</span>
         </div>
       </div>
       <nav className="sidebar-nav">
